@@ -1,9 +1,13 @@
+console.log('hello')
+
 // Récupération des pièces depuis le fichier JSON
 const reponse = await fetch('pieces-autos.json');
 const pieces = await reponse.json();
 
-for (let i = 0; i < pieces.length; i++) {
 
+// Création des balises 
+for (let i=0; i<pieces.length; i++) {
+    
     const article = pieces[i];
     // Récupération de l'élément du DOM qui accueillera les fiches
     const sectionFiches = document.querySelector(".fiches");
@@ -22,8 +26,7 @@ for (let i = 0; i < pieces.length; i++) {
     descriptionElement.innerText = article.description ?? "Pas de description pour le moment.";
     const stockElement = document.createElement("p");
     stockElement.innerText = article.disponibilite ? "En stock" : "Rupture de stock";
-    
-    // On rattache la balise article a la section Fiches
+//Rattachement de nos balises au DOM
     sectionFiches.appendChild(pieceElement);
     // On rattache l’image à pieceElement (la balise article)
     pieceElement.appendChild(imageElement);
@@ -33,6 +36,23 @@ for (let i = 0; i < pieces.length; i++) {
     //Ajout des éléments au DOM pour l'exercice
     pieceElement.appendChild(descriptionElement);
     pieceElement.appendChild(stockElement);
+}
 
- }
- 
+//Gestion des boutons
+const boutonFiltrer = document.querySelector(".btn-description");
+console.log(boutonFiltrer)
+boutonFiltrer.addEventListener("click", function(){
+    const descriptionsFiltrees = pieces.filter(function (piece) {
+        return !!piece.description
+    });
+    console.log(descriptionsFiltrees);
+})
+
+const boutonTrier = document.querySelector(".btn-decroissant");
+boutonTrier.addEventListener("click", function(){
+    const pieceDecroissant = Array.from(pieces);
+    pieceDecroissant.sort(function (a, b) {
+        return b.prix - a.prix;
+    });
+    console.log(pieceDecroissant)
+});
